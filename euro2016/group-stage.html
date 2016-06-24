@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #3c3c3c;
+  font-size: 12px;
+}
+.axis-container {
+  color: #999;
+}
+.chart {
+  display: inline-block;
+}
+.team {
+  margin-bottom: 3px;
+}
+.team--out .team__lead{
+  color: #aaa;
+}
+.team .active {
+  background-color: lightgoldenrodyellow;
+}
+.team__lead {
+  font-size: 13px;
+  width: 100px;
+  display: inline-block;
+}
+.team__label {
+  cursor: default;
+}
+.team__opponents {
+  width: 450px;
+}
+.team__results {
+  width: 225px;
+}
+.team__stats {
+  color: #999;
+  margin-left: 5px;
+  font-size: 10px;
+}
+.opponent {
+  text-align: center;
+  display: inline-block;
+}
+.opponent.team__label {
+  border-bottom: 5px solid #f3de9d;
+  margin-left: 2px;
+}
+.opponent.team__label.win {
+  border-color: #99d594;
+}
+.opponent.team__label.tie {
+  border-color: #999;
+}
+.opponent.team__label.loss {
+  border-color: #fc8d59;
+}
+.sort-by {
+  cursor: pointer;
+}
+.sort-by.active {
+  font-weight: 600;
+}
+.group-label {
+  font-family: "Arial Black";
+  font-size: 60px;
+  color: #aaa;
+  margin-bottom: 30px;
+}
+</style>
+<body>
+
+    <div style="margin: 20px; min-width: 800px;">
+
+        <h2>How teams did against stronger/weaker opponents in EURO 2016 group stage?</h2>
+
+        <!--controls and legend-->
+        <div style="margin: 10px 0;">
+
+            <div style="margin-right: 70px; font-size: 18px; display:inline-block; vertical-align: top;">
+                <span style="color: #aaa">sort by:</span> <span class="sort-by sort-by--opponents active">opponents</span> <span class="sort-by sort-by--group">groups</span>
+            </div>
+            <div style="display: inline-block; color: #aaa">
+                <div style="width: 70px; display:inline-block;">
+                    <span>win</span>
+                    <span style="height: 5px; background-color: #99d594; display: inline-block; width: 30px; margin-bottom:1px;"></span>
+                </div>
+
+                <div style="width: 70px; display:inline-block;">
+                    <span>tie</span>
+                    <span style="height: 5px; background-color: #999; display: inline-block; width: 30px; margin-bottom:1px;"></span>
+                </div>
+
+                <div style="width: 70px; display:inline-block;">
+                    <span>loss</span>
+                    <span style="height: 5px; background-color: #fc8d59; display: inline-block; width: 30px; margin-bottom:1px;"></span>
+                </div>
+
+                <div>
+                    <span>the width represents the team's UEFA coefficient</span>
+                    <span style="height: 5px; background-color: #999; display: inline-block; width: 100px; margin-bottom:1px;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!--chart-->
+        <div style="display:table;">
+            <div style="display: table-row; font-size: 25px; height: 40px;">
+                <div class="sort-by-opponents-description" style="display: table-cell"></div>
+                <div class="sort-by-groups-description" style="display: table-cell"></div>
+                <div style="display: table-cell;">
+                    <div style="display: inline-block; width: 100px;">team</div>
+                    <div style="display: inline-block; width: 450px;">
+                        played against <span style="font-size:10px"> (the shorter the bar, the weaker the opponent)</span>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+            <div style="display: table-row">
+                <div class="axis-container sort-by-opponents-description" style="display: table-cell; padding-right: 10px; width: 55px; vertical-align: middle;">
+                    <div>
+                        <div style="text-align: center;font-size: 20px;">&uarr;</div>
+                        <div style="text-align: center;margin-bottom: 25px;">Team played against <strong>weaker</strong> opponents</div>
+                        <div style="text-align: center;margin-top: 25px;">Team played against <strong>stronger</strong> opponents</div>
+                        <div style="text-align: center;font-size: 20px;">&darr;</div>
+                    </div>
+                </div>
+                <div class="sort-by-groups-description" style="display: table-cell; vertical-align: top; width: 68px;">
+                    <div class="group-label">A</div>
+                    <div class="group-label">B</div>
+                    <div class="group-label">C</div>
+                    <div class="group-label">D</div>
+                    <div class="group-label">E</div>
+                    <div class="group-label">F</div>
+                </div>
+
+                <div style="display: table-cell">
+                    <div class="chart"></div>
+                </div>
+                <div style="display: table-cell; width: 150px; vertical-align: middle;">
+                    <div class="team-details"></div>
+                </div>
+            </div>
+        </div>
+
+        <!--credit and sources-->
+        <div style="margin-top: 30px;">
+            <hr>
+            <div style="margin-bottom:5px">CREDITS</div>
+            <div>inspired by: <a href="http://www.theguardian.com/football/interactive/2013/dec/18/world-cup-2014-draw-strength-of-schedule">Guardian's 2014 world cup strenght of schedule visualisation</a>
+            </div>
+            <div>JS library: <a href="https://d3js.org/">d3.js</a>
+            </div>
+            Data:
+            <div><a href="https://en.wikipedia.org/wiki/UEFA_Euro_2016">https://en.wikipedia.org/wiki/UEFA_Euro_2016</a>
+            </div>
+            <div><a href="http://us.soccerway.com/international/europe/european-championships/2016-france/group-stage/r31060/">http://us.soccerway.com/international/europe/european-championships/2016-france/group-stage/r31060/</a>
+            </div>
+
+            <div style="margin-top: 10px;">SOURCE CODE: <a href="https://github.com/djamshed/data-visualisations/euro2016/">https://github.com/djamshed/data-visualisations/euro2016/</a></div>
+        </div>
+
+    </div>
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="group-stage-es5.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79855448-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
