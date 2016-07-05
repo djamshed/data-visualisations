@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Interactive Flatland: cities with similar latitude</title>
+<link rel="stylesheet" href="vendor/awesomplete.css" />
+<style>
+  body {
+    font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: lightgray;
+  }
+
+  a {
+    color: #333;
+  }
+
+  #chart {
+    font-size: 11px;
+    position: relative;
+    height: 100%;
+    color: #333;
+    height: 600px;
+    display: inline-block;
+    width: 600px;
+    margin-top: 10px;
+  }
+
+  #details {
+    font-size: 10px;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 200px;
+  }
+
+  .continent {
+    background-color: #C0E32F;
+  }
+
+  .continent-label {
+    color: #999;
+  }
+
+  .city {
+    border-top: 1px solid #999;
+    width: 100%;
+    opacity: .1;
+    text-align: right;
+    line-height: 0.8;
+    font-size: 10px;
+  }
+
+  .city__label {
+    opacity: 0;
+  }
+
+  .city.close,
+  .city.sticky {
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .city.close .city__label,
+  .city.sticky .city__label {
+    opacity: 1;
+  }
+
+  .show-capitals .btn-capitals,
+  .show-top .btn-top {
+    background-color: #5A6332;
+  }
+
+  .show-capitals .city.capital,
+  .show-top .city.top {
+    opacity: 1;
+  }
+
+  /* button style courtesy http://callmenick.com/post/stylish-css-buttons */
+  .btn {
+    margin-right: 3px;
+    padding: 5px 15px;
+    box-shadow: none;
+    border-radius: 0;
+    color: #fff;
+    background-color: #7F961F;
+    text-shadow: -1px 1px #3B3E2D;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn:hover,
+  .btn:active {
+    background-color: #5A6332;
+  }
+
+  button:focus {
+    outline: 0;
+  }
+
+  .btn-clear {
+    color: #5A6332;
+    margin: 0 5px;
+  }
+
+  .search-txt {
+    margin-left: 20px;
+    outline: 0;
+  }
+
+  .hover-line {
+    position: absolute;
+    width: 600px;
+    border-top: 1px solid grey;
+    height: 1px;
+    text-align: right;
+  }
+
+  .bound {
+    width: 100%;
+    border-top: 2px solid #dedede;
+  }
+</style>
+<body>
+  <div id="container" style="width:820px; margin:0 auto;">
+    <h3>Interactive Flatland</h3>
+    <p>Inspired by Lisa Charlotte Rost's <a href="http://lisacharlotterost.github.io/2016/06/23/flatland/">Flatland</a> visualisation.
+    Basic idea is to show cities with similar latitude.
+    This interactive version contains the most populated 100 cities and almost every capital city (population 10K+) in the world.
+    </p>
+    <div><span style="padding: 3px; background-color: #E4FC80;"> <strong>move</strong> your mouse to see more, <strong>click</strong> to stick!</span></div>
+
+    <div style="margin: 20px 0 5px 0;">
+      <span style="margin-right: 5px;">Toggle: </span>
+      <button class="btn btn-capitals"> ☆ capitals</button>
+      <button class="btn btn-top">⊚∘ biggest 20 cities</button>
+      <a class="btn-clear" href="#">clear all</a>
+      <!--autocomplete options (scraped from data)-->
+      <input class="awesomplete search-txt" placeholder="search" data-list="Abidjan, Abu Dhabi, Accra, Addis Ababa, Ahmedabad, Alexandria, Algiers, Amman, Amsterdam, Ankara, Antananarivo, Apia, Ashgabat, Asmara, Astana, Athens, Avarua, Baghdad, Baku, Bamako, Bandar Seri Begawan, Bangkok, Bangui, Banjul, Basra, Basseterre, Beijing, Beirut, Belgrade, Belmopan, Belo Horizonte, Bengaluru, Berlin, Bishkek, Bissau, Bogota, Brasília, Bratislava, Brazzaville, Bridgetown, Brooklyn, Brussels, Bucharest, Budapest, Buenos Aires, Bujumbura, Busan, Cairo, Canberra, Cape Town, Caracas, Casablanca, Castries, Cayenne, Charlotte Amalie, Chengdu, Chennai, Chicago, Chittagong, Chongqing, Colombo, Conakry, Copenhagen, Daegu, Dakar, Damascus, Dar es Salaam, Delhi, Dhaka, Dili, Djibouti, Dodoma, Doha, Dongguan, Douglas, Dublin, Durban, Dushanbe, East Jerusalem, Faisalabad, Fort-de-France, Fortaleza, Freetown, Gaborone, George Town, Georgetown, Gibraltar, Giza, Guangzhou, Guatemala City, Hamilton, Hanoi, Harare, Havana, Helsinki, Ho Chi Minh City, Hong Kong, Honiara, Hyderabad, Ibadan, Incheon, Istanbul, Izmir, Jakarta, Jeddah, Jerusalem, Juba, Kabul, Kampala, Kano, Kanpur, Karachi, Kathmandu, Khartoum, Kiev, Kigali, Kingston, Kingstown, Kinshasa, Kolkata, Kuala Lumpur, Kuwait City, Lagos, Lahore, Libreville, Lilongwe, Lima, Lisbon, Ljubljana, London, Los Angeles, Luanda, Lusaka, Luxembourg, Macao, Madrid, Majuro, Malabo, Mamoudzou, Managua, Manama, Manila, Maputo, Maracaibo, Maseru, Mashhad, Mbabane, Melbourne, Mexico City, Minsk, Mogadishu, Monaco, Monrovia, Montevideo, Moroni, Moscow, Mumbai, Muscat, N'Djamena, Nairobi, Nanjing, Nassau, New York, Niamey, Nicosia, Nouakchott, Noumea, Nuku'alofa, Nuuk, Oranjestad, Osaka, Oslo, Ottawa, Ouagadougou, Pago Pago, Panama City, Papeete, Paramaribo, Paris, Phnom Penh, Podgorica, Port Louis, Port Moresby, Port of Spain, Port Vila, Port-au-Prince, Porto-Novo, Prague, Praia, Pretoria, Pristina, Pune, Pyongyang, Queens, Quezon City, Quito, Rabat, Reykjavik, Riga, Rio de Janeiro, Riyadh, Rome, Roseau, Saint Helier, Saint Petersburg, Saint-Denis, Saint-Pierre, Saipan, Salvador, San Jose, San Juan, San Salvador, Sanaa, Santiago, Santiago, Santiago de Cali, Santo Domingo, Sao Paulo, Sarajevo, Seoul, Shanghai, Shenzhen, Singapore, Skopje, Sofia, St Peter Port, St. John's, Stockholm, Sucre, Surabaya, Surat, Suva, Sydney, Taipei, Tallinn, Tarawa, Tashkent, Tbilisi, Tegucigalpa, Tehran, Thimphu, Tianjin, Tirana, Tokyo, Toronto, Tripoli, Tripoli, Tunis, Ulan Bator, Victoria, Vienna, Vientiane, Vilnius, Warsaw, Wellington, Willemstad, Windhoek, Wuhan, Yamoussoukro, Yangon, Yerevan, Yokohama, Zagreb"
+      />
+    </div>
+
+    <div id="chart"></div>
+    <div id="details"></div>
+
+    <div style="margin: 40px 0; color: #666;">
+      <div>Credits and links:</div>
+      <div>Data: <a href="#https://docs.google.com/spreadsheets/d/1tFeCAlTxr92lIB9wfIx1IFBzZKLtqxiUNLYetm0oIfE/edit?usp=sharing">here</a>, extended from <a href="https://docs.google.com/spreadsheets/d/1kN2E2CbIgdY6j_9ANZ3f2x5jJ6xrCMenP2S9ZkTJwAQ/edit?usp=sharing">Lisa Charlotte Rost's spreadsheet</a></div>
+      <div>Geo data: <a href="http://www.geonames.org/">www.geonames.org</a></div>
+      <div>Lea Verou's <a href="http://leaverou.github.io/awesomplete/">awesomplete</a> auto-complete component</div>
+      <div>Mike Bostock's <a href="https://d3js.org/">d3.js</a> data vis framework</div>
+      <div>Play with the code <a href="http://codepen.io/djam/full/dXNjPG/">at codepen</a></div>
+      <div>Source code <a href="http://codepen.io/djam/full/dXNjPG/">at github</a></div>
+    </div>
+  </div>
+
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="vendor/awesomplete.min.js" charset="utf-8"></script>
+  <script src="app-es5.js"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-79855448-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</body>
