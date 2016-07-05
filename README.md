@@ -1,9 +1,17 @@
 # data-visualisations
-This is a social experiment called "will creating a public repo help me finish my visualisations?"
+
+- EURO 2016 group stage: [weak/strong opponents in the groups](euro2016/)
+
+<a href="euro2016/euro2016-1.png" target="_blank">
+  <img src="euro2016/euro2016-1.png" alt="Screenshot 1" title="Sorted by group strength" height="200px">
+</a>
+<a href="euro2016/euro2016-2.png" target="_blank">
+  <img src="euro2016/euro2016-2.png" alt="Screenshot 2" title="Sorted by group" height="200px">
+</a>
 
 
-## EURO 2016 visualisations
-- EURO 2016 group stage: [weak/strong opponents in the groups](https://djamshed.github.io/data-visualisations/euro2016/group-stage.html)
+- Interactive Flatland: [cities with similar latitude](interactive-flatland/)
 
-![Screenshot 1](/euro2016/euro2016-1.png?raw=true "Sorted by group strength")
-![Screenshot 2](/euro2016/euro2016-2.png?raw=true "Sorted by group")
+<a href="interactive-flatland/flatland3.gif" target="_blank">
+  <img src="interactive-flatland/flatland3.gif" alt="usage" title="Interactive Flatland" width="400px">
+</a>
