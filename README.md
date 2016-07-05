@@ -13,6 +13,7 @@
 
 
 - Interactive Flatland: [cities with similar latitude](interactive-flatland/)
+
 <a href="interactive-flatland/flatland3.gif" target="_blank">
   <img src="interactive-flatland/flatland3.gif" alt="usage" title="Interactive Flatland" width="200px">
 </a>
