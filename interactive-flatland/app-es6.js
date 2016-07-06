@@ -295,6 +295,14 @@ var data = [{
     "isCapital": true,
     "populationRank": 296
   }, {
+    "city": "Washington",
+    "country": "United States",
+    "continent": "N. America",
+    "lat": 38.9072,
+    "population": 601723,
+    "isCapital": "true",
+    "populationRank": 379
+  }, {
     "city": "San Juan",
     "country": "Puerto Rico",
     "continent": "N. America",
