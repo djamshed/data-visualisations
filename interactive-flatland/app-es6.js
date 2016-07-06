@@ -73,17 +73,23 @@ var draw = data => {
 
     let continent = {};
     // find 'close' cities
-    cities
+    const closeCities = cities
       .classed('close', false)
       // find close cities
       .filter(d => Math.abs(d.lat - lat) < 3)
-      .each(function(d) {
-        // allow 1 city/continent
+      .each(function(d){
         if (!continent[d.continent]) {
-          continent[d.continent] = true;
-          d3.select(this).classed('close', true);
+          continent[d.continent] = [];
         }
+        continent[d.continent].push({city: this, diff: Math.abs(d.lat - lat)});
       })
+    ;
+    for (let x in continent) {
+      continent[x].sort( (a, b) => a.diff - b.diff );
+      // pick the closest city
+      d3.select(continent[x][0].city).classed('close', true)
+    }
+
 
     // update hover line
     line.style('top', xy[1] + 'px');
@@ -119,17 +125,15 @@ var draw = data => {
     cities
       .filter(d => d.city === label)
       .classed('sticky', true);
+    // update details
+    updateDetails(chart.selectAll('.city.sticky, .city.close').data());
   });
 
   // ------ sticky, close cities' details
   const populationFormatter = d3.format(',.3s');
-  const ordinalFormatter = (n) => {
-    var s = ['th', 'st', 'nd', 'rd'],
-      v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-  }
+  const latFormatter = d3.format(',.1f');
   const updateDetails = data => {
-    const detailTextFx = d => '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + populationFormatter(d.population) + ', <strong>' + ordinalFormatter(d.populationRank) + '</strong>)</div>';
+    const detailTextFx = d => '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + latFormatter(d.lat) + '°, ' + populationFormatter(d.population) + ' ppl)</div>';
 
     // enter
     const details = d3.select('#details').selectAll('.detail-item').data(data, d => d.city);
@@ -294,6 +298,14 @@ var data = [{
     "population": 812129,
     "isCapital": true,
     "populationRank": 296
+  }, {
+    "city": "Washington",
+    "country": "United States",
+    "continent": "N. America",
+    "lat": 38.9072,
+    "population": 601723,
+    "isCapital": "true",
+    "populationRank": 379
   }, {
     "city": "San Juan",
     "country": "Puerto Rico",
