@@ -66,17 +66,23 @@ var draw = function draw(data) {
 
     var continent = {};
     // find 'close' cities
-    cities.classed('close', false)
+    var closeCities = cities.classed('close', false)
     // find close cities
     .filter(function (d) {
       return Math.abs(d.lat - lat) < 3;
     }).each(function (d) {
-      // allow 1 city/continent
       if (!continent[d.continent]) {
-        continent[d.continent] = true;
-        d3.select(this).classed('close', true);
+        continent[d.continent] = [];
       }
+      continent[d.continent].push({ city: this, diff: Math.abs(d.lat - lat) });
     });
+    for (var x in continent) {
+      continent[x].sort(function (a, b) {
+        return a.diff - b.diff;
+      });
+      // pick the closest city
+      d3.select(continent[x][0].city).classed('close', true);
+    }
 
     // update hover line
     line.style('top', xy[1] + 'px');
@@ -112,18 +118,16 @@ var draw = function draw(data) {
     cities.filter(function (d) {
       return d.city === label;
     }).classed('sticky', true);
+    // update details
+    updateDetails(chart.selectAll('.city.sticky, .city.close').data());
   });
 
   // ------ sticky, close cities' details
   var populationFormatter = d3.format(',.3s');
-  var ordinalFormatter = function ordinalFormatter(n) {
-    var s = ['th', 'st', 'nd', 'rd'],
-        v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-  };
+  var latFormatter = d3.format(',.1f');
   var updateDetails = function updateDetails(data) {
     var detailTextFx = function detailTextFx(d) {
-      return '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + populationFormatter(d.population) + ', <strong>' + ordinalFormatter(d.populationRank) + '</strong>)</div>';
+      return '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + latFormatter(d.lat) + '°, ' + populationFormatter(d.population) + ' ppl)</div>';
     };
 
     // enter
