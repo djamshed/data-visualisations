@@ -125,17 +125,15 @@ var draw = data => {
     cities
       .filter(d => d.city === label)
       .classed('sticky', true);
+    // update details
+    updateDetails(chart.selectAll('.city.sticky, .city.close').data());
   });
 
   // ------ sticky, close cities' details
   const populationFormatter = d3.format(',.3s');
-  const ordinalFormatter = (n) => {
-    var s = ['th', 'st', 'nd', 'rd'],
-      v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-  }
+  const latFormatter = d3.format(',.1f');
   const updateDetails = data => {
-    const detailTextFx = d => '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + populationFormatter(d.population) + ', <strong>' + ordinalFormatter(d.populationRank) + '</strong>)</div>';
+    const detailTextFx = d => '<div><strong>' + d.city + '</strong>, ' + d.country + ' (' + latFormatter(d.lat) + '°, ' + populationFormatter(d.population) + ' ppl)</div>';
 
     // enter
     const details = d3.select('#details').selectAll('.detail-item').data(data, d => d.city);
