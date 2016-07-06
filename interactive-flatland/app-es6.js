@@ -73,17 +73,23 @@ var draw = data => {
 
     let continent = {};
     // find 'close' cities
-    cities
+    const closeCities = cities
       .classed('close', false)
       // find close cities
       .filter(d => Math.abs(d.lat - lat) < 3)
-      .each(function(d) {
-        // allow 1 city/continent
+      .each(function(d){
         if (!continent[d.continent]) {
-          continent[d.continent] = true;
-          d3.select(this).classed('close', true);
+          continent[d.continent] = [];
         }
+        continent[d.continent].push({city: this, diff: Math.abs(d.lat - lat)});
       })
+    ;
+    for (let x in continent) {
+      continent[x].sort( (a, b) => a.diff - b.diff );
+      // pick the closest city
+      d3.select(continent[x][0].city).classed('close', true)
+    }
+
 
     // update hover line
     line.style('top', xy[1] + 'px');
