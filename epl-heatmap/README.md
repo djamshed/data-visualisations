@@ -3,5 +3,5 @@
 - Demo: [heatmap](https://djamshed.github.io/data-visualisations/epl-heatmap/)
 
 <a href="https://djamshed.github.io/data-visualisations/epl-heatmap/" target="_blank">
-  <img src="epl-heatmap/heatmap.png" alt="usage" title="Premier League Heatmap" width="400px">
+  <img src="heatmap.png" alt="heatmap" title="Premier League Heatmap" width="400px">
 </a>
