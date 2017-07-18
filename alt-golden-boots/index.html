@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Righteous" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+      <h1>ANOTHER WAY TO "GOLDEN BOOT"</h1>
+      <h2>An attempt to identify goal scorers that contributed the most to a team success in soccer.</h2>
+    </header>
+
+
+    <div class="intro">
+      <p>In soccer, a <a href="https://en.wikipedia.org/wiki/Premier_League_Golden_Boot"><i>Golden Boot</i></a>
+      is one of the most important individual trophies awarded to a <strong>player</strong> that managed to score the <strong>most goals</strong> during a league season.
+      Likewise, <i>Champion</i> is the title awarded to a <strong>team</strong> that earned the most amount of <strong>points</strong> throughout a season.
+      Let's repeat it again: individual award — for goals, team award — for points.</p>
+      <p>There is an indirect relationship between the goals and points. If only there was a "translator" from goals to the points,
+        we could've ended up with a useful metric that measured player's success on the same scale as teams.
+        If patiently scrolled throughout the page, the author will try to explain his (naive, simple, subjective) idea on how we could measure both the team and the player success on the scale that matters the most: by number of points.
+      </p>
+    </div>
+
+    <div class="table-story">
+      <div class="graphic">
+        <div class="graphic__vis">
+          <h3>Premier League Table</h3>
+          <div class="teams-container"></div>
+        </div>
+        <div class="graphic__story">
+          <div class="paragraph">
+            <div>
+              <h3>Use case: Premier League 2008-2009 season</h3>
+              <p>This is what an English Premier League table looked like at the end of 2008-2009 season. The <span class="active-stat">#1</span> ranked team - <span class="active-stat">Manchester U</span> - won the league title. Let's look at the anatomy of how a team wins the title.</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Most <span class="active-stat">POINTS</span> = Champion</h3>
+              <p>
+                The ultimate metric to identify a champion is the number of <span class="active-stat">POINTS</span> (pts) earned by a team throughout a season. At the end of the season a team with the most points becomes a champion.
+              </p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3><span class="active-stat">WIN</span> = 3 points<br><span class="active-stat">DRAW</span> = 1 point</h3>
+              <p>Points are earned by <span class="active-stat">WINNING</span> (w) or <span class="active-stat">DRAWING</span> (d) a game.</p>
+              <p>A winning team earns three points, a losing team gets zero points. In case of a draw, each team is awarded a point.</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Score more <span class="active-stat">GOALS</span> than your opponent</h3>
+              <p>A team wins a game if it scores more goals than its opponent. <span class="active-stat">GOALS FOR</span> (gf) stat in this table is the total number of goals scored by a team throughout the season.</p>
+              <p>Some of these goals are "responsible" for points earned than the others. <strong>For each played game, let's attribute team's points to ONE GOAL that is responsible for ALL the POINTS earned by a team in that game.</strong></p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Game winning goal = <span class="active-stat">3 points</span></h3>
+              <p>If a team won a game, it is awarded three points. Now, the objective is to find a goal that secured those points.</p>
+              <p>For the purpose of this analysis, let's attribute the winning team's <strong>three points to the goal that ensured the victory</strong>: the goal scored to put the winning team in the lead (similar to ice hockey's definition of <a href="https://en.wikipedia.org/wiki/Goal_(ice_hockey)">game winning goal</a>).
+              </p>
+              <p style="font-size: 70%;">Example: in a 5-0 game, the game winnnig goal would be the first goal</p>
+              <p style="font-size: 70%;">Example: in a 5-2 game, the game winnnig goal would be the third goal scored by the winning team</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Game tying goal = <span class="active-stat">1 point</span></h3>
+              <p>In case of a draw, each team earns one point. Let's attribute <strong>ONE point to the goals (one for each team, if any goals were scored) that ensured score equality</strong>.</p>
+              <p style="font-size: 70%;">Example: in a 3-3 game, the third goal scored by each team are the tying goals</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="goal-story">
+      <div class="graphic">
+        <div class="graphic__vis">
+          <h3>Premier League Goals</h3>
+          <div class="goals-container">
+          </div>
+        </div>
+        <div class="graphic__story">
+          <div class="paragraph">
+            <div>
+              <h3>A bigger picture: all goals</h3>
+              <p><span class="active-stat">942 goals</span> were scored in 2008/2009 Premier League season. Using the method described above, let's assign points to the goals that made the difference.</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Game tying goals</h3>
+              <p><span class="active-stat">98 goals</span> tied the game and each is attributed with ONE point.</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+            <h3>Game winning goals</h3>
+            <p><span class="active-stat">264 goals</span> ensured victories for their teams, each one is attributed with THREE points.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="players-story">
+      <div class="graphic">
+        <div class="graphic__vis">
+          <h3>Goal and Point Leaders</h3>
+          <div class="players-container">
+            <div class="tornado-title-row">
+              <div class="tornado-points"><span class="tornado-sort-indicator">sorted by</span> points</div>
+              <div class="tornado-label">name</div>
+              <div class="tornado-goals"><span class="tornado-sort-indicator">sorted by</span> goals scored</div>
+            </div>
+            <div class="tornado-row-container"></div>
+          </div>
+        </div>
+        <div class="graphic__story">
+          <div class="paragraph">
+            <div>
+              <h3>Golden Boot</h3>
+              <p>Now that all goals scored have been assigned their corresponding points, we can find which player actually "scored most points"</p>
+              <p>For context, here is what a Golden Boot standings look like: Anelka has won it with 19 scored goals.</p>
+            </div>
+          </div>
+          <div class="paragraph">
+            <div>
+              <h3>Golden-mutant boot!</h3>
+              <p>When players are sorted by their point contributions,
+                Defoe and Lampard are ahead of everyone.
+                Although Defoe scored only 11 goals, his team benefited
+                from his six game-winning and one game-tying goals.
+                That is 19 points, that makes him tie for the first place
+                in this Golden-mutant boot standings.</p>
+            </div>
+          </div>
+
+          <div class="paragraph">
+            <div>
+              <h3>TLDR;</h3>
+
+              <p>Dear Premier League FA, please give Defoe and Lampard an award they deserved in 2008/2009 season.</p>
+              <p style="font-size: 4rem; margin: 0;">👉</p>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  <!--https://d3js.org/-->
+  <script src="d3.min.js"></script>
+  <!--https://1wheel.github.io/graph-scroll/-->
+  <script src="graph-scroll.js"></script>
+  <script src="app.js"></script>
+</body>
+
+

@@ -1,0 +1,260 @@
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #797979;
+  background: #fefefe;
+  overflow-x: hidden;
+  margin: 0 .5rem;
+}
+header {
+  text-align: center;
+  margin: 1em auto;
+}
+header h1 {
+  font-family: 'Righteous', cursive;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: goldenrod;
+  margin: 0;
+}
+header h2 {
+  margin-top: .5rem;
+  font-size: 0.8rem;
+}
+.intro {
+  font-size: 1.3rem;
+}
+
+
+/* ----- scrolly telling ------ */
+.graphic {
+  position: relative;
+}
+.graphic__story .paragraph {
+  height: 25rem;
+  padding: 5rem 0;
+  opacity: 0.2;
+  text-align: center;
+}
+.graphic__story .paragraph > div  {
+  background-color: rgba(234, 234, 234, 0.5);
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.graphic__story .paragraph.graph-scroll-active {
+	opacity: 1;
+}
+
+.graphic__vis {
+  position: absolute;
+  top: 20px;
+  padding-left: 20px;
+}
+.graph-scroll-fixed .graphic__vis {
+  position: fixed;
+  right: auto;
+}
+.graph-scroll-below .graphic__vis {
+  position: absolute;
+  bottom: 0px;
+  top: auto;
+}
+.graphic__vis h3 {
+  text-align: center;
+  font-size: 1.2rem;
+}
+strong {
+  color: #111;
+}
+img {
+  width: 100%;
+}
+
+.goals-story, .players-story {
+  margin-top: 5rem;
+}
+
+@media (min-width: 767px) {
+  header {
+    margin: 4em auto;
+  }
+  header h1 {
+    font-size: 3rem;
+  }
+  body {
+    max-width: 60em;
+    margin: 4em auto;
+  }
+  .graphic__story {
+    width: 15rem;
+  }
+  .graphic__vis {
+    margin-left: 15rem;
+    top: 5rem;
+  }
+}
+
+ /* --------------------- team stats */
+ .team {
+   font-size: 1rem;
+   height: 25px;
+ }
+ .team > span, .player > span {
+  color: #c5c5c5;
+  transition: all 0.5s;
+ }
+
+.team > span.active-stat, .team > span.placeholder {
+  color: lightseagreen;
+  font-size: 1.2rem;
+  margin: 0.3rem
+ }
+.active-stat {
+   color: lightseagreen;
+ }
+.team > span.text-team, .player > span.text-player  {
+   font-size: 1rem;
+   color: #777;
+   margin-right: 0.2rem;
+ }
+
+/* ---------------- goals - circular moving thing */
+.goals-container {
+  width: 500px;
+  height: 500px;
+  position: relative;
+}
+@keyframes circular_move {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.goal-group {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.goal-group.animated {
+  animation: linear infinite circular_move forwards;
+}
+.goal {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  box-shadow:inset 0px 0px 0px 1px rgba(32, 178, 170, 0.5);
+  display: inline-block;
+}
+.goal.goal--winning.highlighted {
+  background-color: rgba(28, 125, 120, 0.5);
+}
+.goal.goal--tying.highlighted {
+  background-color: rgba(28, 125, 120, 0.3);
+}
+.one-point-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 6rem;
+  font-size: 1rem;
+  color: #21827c;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  border-radius: 4px;
+}
+.three-points-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 3rem;
+  font-size: 1.2rem;
+  color: #185d58;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 5px;
+  border-radius: 4px;
+}
+.goal-legend {
+  position: absolute;
+  bottom: 1rem;
+  font-size: 0.7rem;
+  text-align: right;
+  padding: 5px;
+  background-color: #f5f5f5;
+  width: 100%;
+  text-align: center;
+}
+
+.goal-legend .goal {
+  position: relative;
+  width: 10px;
+  height: 10px;
+}
+.goal-legend .vdivider {
+  margin: 0 5px;
+  border-left: 1px dotted #999;
+}
+
+
+
+/*-------------------- tornado*/
+.tornado-row {
+  font-size: .7rem;
+  position: absolute;
+}
+.tornado-row-container {
+  position: relative;
+}
+.tornado-title-row {
+  margin-bottom: 10px;
+  padding: 3px;
+  border-bottom: 1px dotted #777;
+  color: #c5c5c5;
+}
+.tornado-title-row > div {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+.tornado-sort-indicator {
+  display: none;
+}
+
+.tornado-title-row.sorted-by-goals > .tornado-goals, .tornado-title-row.sorted-by-points > .tornado-points {
+  font-weight: 600;
+}
+.tornado-title-row.sorted-by-goals > .tornado-goals .tornado-sort-indicator, .tornado-title-row.sorted-by-points > .tornado-points .tornado-sort-indicator {
+  display: inline;
+}
+
+.tornado-row > div, .tornado-title-row > div {
+  position: relative;
+  display: inline-block;
+  height: 20px;
+  vertical-align: top;
+}
+
+.tornado-label {
+  width: 100px;
+  text-align: center;
+}
+.tornado-points__bar {
+  position: absolute;
+  right: 0;
+}
+.tornado-goals__bar {
+  text-align: right;
+}
+.tornado-points__bar > span, .tornado-goals__bar > span {
+  margin: 0 5px;
+}
+.tornado-points__bar, .tornado-goals__bar {
+  border: 1px dotted #ccc;
+  opacity: .5;
+}
+.sorted-by-points .tornado-points__bar,
+.sorted-by-goals .tornado-goals__bar {
+  background-color: rgba(32, 178, 170, 0.5);
+  color: white;
+  opacity: 1;
+}
