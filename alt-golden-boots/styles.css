@@ -266,6 +266,9 @@ img {
   visibility: visible;
 }
 
+.tornado-points__bar, .tornado-goals__bar {
+  transition: background-color 2s ease;
+}
 .tornado-points__bar {
   position: absolute;
   right: 0;

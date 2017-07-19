@@ -268,7 +268,7 @@ const tornado = (data, activeClass) => {
     })
   .merge(row)
     .transition()
-    .duration(300)
+    .duration(500)
     .style('top', (d, i) => `${i * ROW_HEIGHT}px`)
   playersContainer.selectAll('.tornado-points, .tornado-goals').style('width', widthRange[1] + 'px');
 
