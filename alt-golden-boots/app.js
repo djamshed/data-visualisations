@@ -27,7 +27,9 @@ const start = () => {
   d3.json('pl08-09.combined.json', function(error, data) {
     if(!error) {
       teamGoals = data.table;
-      goalLeaders = data.leaders.map( d => Object.assign({id: d.playerID, label: d.player, goals_for: d.goals}, d));
+      goalLeaders = data.leaders
+        .filter( d => d.goals > 10)
+        .map( d => Object.assign({id: d.playerID, label: d.player, goals_for: d.goals, rankDiff: d.goalRank - d.pointsRank}, d));
 
       // remove "heavy" t.goals property before passing it to draw table
       teamStandings = teamGoals.map(t => Object.assign({id: t.team, label: t.team}, t, {goals: null}));
@@ -94,7 +96,8 @@ const highlightGoals = (goals, circle, duration, delay, size) => {
   const rotateFx = (r, sel) => `rotate(${+extractRotate(sel.style('transform')) + r}deg)`
   const translateFx = tr => `translate(${tr()}px)`;
 
-  if (!circle) circle = circle0;
+  if (!circle)
+    circle = circle0;
 
   function transformGoal() {
     const sel = d3.select(this);
@@ -165,6 +168,7 @@ const rotateAllGoals = () => {
   updateClassedLabel('goal-legend', '<span class="goal"></span> goal');
   updateClassedLabel('one-point-label');
 }
+
 const highlightTyingGoals = () => {
   if (!isStepForward()) {
     // restore winning goals to their initial position (for scroll-up)
@@ -233,17 +237,17 @@ const highlightWinningGoals = () => {
 };
 
 const tornado = (data, activeClass) => {
-  const ROW_HEIGHT = 20;
+  const ROW_HEIGHT = 28;
   activeClass = activeClass || '';
 
-  const widthRange = [30, 200];
+  const widthRange = [50, 200];
   const goalScale = d3.scaleLinear()
       .domain(d3.extent(data.map(d => d.goals_for)))
       .range(widthRange);
   const pointsScale = d3.scaleLinear()
     .domain(d3.extent(data.map(d => d.points)))
     .range(widthRange);
-
+  const diffFormat = d3.format('+d');
   const row = playersContainer.select('.tornado-row-container').selectAll('.tornado-row')
     .data(data, d => d.id);
   row.enter()
@@ -256,7 +260,7 @@ const tornado = (data, activeClass) => {
             <span>${d.points}</span>
           </div>
         </div>
-        <div class="tornado-label">${d.label}</div>
+        <div class="tornado-label">${d.label} <span class="tornado-rank-diff ${d.rankDiff > -1 ? 'positive' : 'negative'}">${diffFormat(d.rankDiff)}</span></div>
         <div class="tornado-goals" style="width:${widthRange[1]}px;">
           <div class="tornado-goals__bar" style="width:${goalScale(d.goals_for)}px;"><span>${d.goals_for}</span></div>
         </div>
@@ -273,24 +277,13 @@ const tornado = (data, activeClass) => {
   playersContainer.select('.tornado-title-row').attr('class', 'tornado-title-row ' + activeClass);
   playersContainer.select('.tornado-row-container').attr('class', 'tornado-row-container ' + activeClass);
 };
-const tornadoTeamPoints = () => {
-  const sortedByPts = teamStandings.slice().sort( (a, b) => b.points - a.points );
-  tornado(sortedByPts, 'sorted-by-points');
-}
-const tornadoTeamGoals = () => {
-  const sortedByGoals = teamStandings.slice().sort( (a, b) => b.goals_for - a.goals_for );
-  tornado(sortedByGoals, 'sorted-by-goals');
-}
 const tornadoPlayerPoints = () => {
-  const sortedByGoals = goalLeaders.slice().sort( (a, b) => b.goals_for - a.goals_for );
-  tornado(sortedByGoals, 'sorted-by-goals');
+  const sorted = goalLeaders.sort( (a, b) => b.goals_for - a.goals_for );
+  tornado(sorted, 'sorted-by-goals');
 };
 
 const tornadoPlayerGoals = () => {
-  const sorted = goalLeaders
-    .slice()
-    .sort( (a, b) => b.points - a.points );
-  sorted.forEach( (d, i) => { d.rankDiff = d.goalRank - i - 1;} );
+  const sorted = goalLeaders.sort( (a, b) => b.points - a.points );
   tornado(sorted, 'sorted-by-points');
 };
 
@@ -321,8 +314,6 @@ const stepState = {
   },
   players: {
     steps: [
-      // tornadoTeamPoints,
-      // tornadoTeamGoals,
       tornadoPlayerPoints,
       tornadoPlayerGoals,
     ],
@@ -385,13 +376,7 @@ const teamDescription = d => {
     <span class='placeholder'></span>
   `;
 }
-const playerDescription = d => {
-  return `
-    <span class='text-goals'>${d.goals} goals</span>
-    <span class='text-points'>${d.points} pts</span>
-    <span class='text-player'>${d.player}</span>
-  `;
-}
+
 // ----------- /templates
 
 window.onbeforeunload = function(){ window.scrollTo(0,0); }

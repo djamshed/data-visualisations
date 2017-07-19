@@ -25,18 +25,25 @@ header h2 {
 .intro {
   font-size: 1.3rem;
 }
-
+a {
+  color: #797979;
+}
+.credits {
+  font-size: 0.7rem;
+  text-align: left;
+  margin: 3rem 0;
+}
 
 /* ----- scrolly telling ------ */
 .graphic {
   position: relative;
 }
 .graphic__story .paragraph {
-  height: 25rem;
-  padding: 5rem 0;
+  padding: 10rem 0;
   opacity: 0.2;
   text-align: center;
 }
+
 .graphic__story .paragraph > div  {
   background-color: rgba(234, 234, 234, 0.5);
   padding: 10px;
@@ -199,7 +206,7 @@ img {
 
 /*-------------------- tornado*/
 .tornado-row {
-  font-size: .7rem;
+  font-size: 1rem;
   position: absolute;
 }
 .tornado-row-container {
@@ -222,6 +229,7 @@ img {
 
 .tornado-title-row.sorted-by-goals > .tornado-goals, .tornado-title-row.sorted-by-points > .tornado-points {
   font-weight: 600;
+  color: #777;
 }
 .tornado-title-row.sorted-by-goals > .tornado-goals .tornado-sort-indicator, .tornado-title-row.sorted-by-points > .tornado-points .tornado-sort-indicator {
   display: inline;
@@ -230,14 +238,34 @@ img {
 .tornado-row > div, .tornado-title-row > div {
   position: relative;
   display: inline-block;
-  height: 20px;
   vertical-align: top;
 }
 
 .tornado-label {
-  width: 100px;
+  width: 160px;
   text-align: center;
 }
+.tornado-rank-diff {
+  font-size: 60%;
+  position: absolute;
+  left: 0;
+  top: 3px;
+  width: 18px;
+  display: inline-block;
+  padding: 2px;
+  visibility: hidden;
+  color: white;
+}
+.tornado-rank-diff.positive {
+  background-color: #74b774;
+}
+.tornado-rank-diff.negative {
+  background-color: #e88888;
+}
+.sorted-by-points .tornado-rank-diff {
+  visibility: visible;
+}
+
 .tornado-points__bar {
   position: absolute;
   right: 0;
@@ -258,3 +286,4 @@ img {
   color: white;
   opacity: 1;
 }
+
